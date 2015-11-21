@@ -2,6 +2,7 @@
 ```
 * 契約番号 (EngagementNumber)
 * 氏名 (Fullname)
+* プラン (Plan: NORMAL, SPECIAL)
 * 主回線 (Line)
  * Sim (SimCard)
   * 転入 (Mnp)

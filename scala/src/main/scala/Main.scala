@@ -1,10 +1,10 @@
 import java.io.File
 
+import domain.engagement._
 import domain.engagement.line.Line
 import domain.engagement.line.mnp_in.{MnpIn, Msisdn}
 import domain.engagement.share_line.{ShareLine, ShareLines}
 import domain.engagement.sim_card.SimCard
-import domain.engagement.{Engagement, EngagementNumber, Fullname}
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -77,6 +77,7 @@ object Main {
     Engagement(
       EngagementNumber("en1"),
       Fullname("john doe"),
+      NormalPlan,
       Line(
         SimCard(
           mnpIn
