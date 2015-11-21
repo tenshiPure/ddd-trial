@@ -1,7 +1,7 @@
 package service
 
 import domain.engagement.mobile.mnp_in.{MnpIn, Msisdn}
-import domain.engagement.{Fullname, _Plan}
+import domain.engagement.{Engagement, EngagementNumber, Fullname, _Plan}
 
 object Adapter {
   def engage(fullname: String, planCode: String, msisdn: String) = {
@@ -10,5 +10,9 @@ object Adapter {
       _Plan.create(planCode),
       if (msisdn == "") None else Some(MnpIn(Msisdn(msisdn)))
     )
+  }
+
+  def find(engagementNumber: String): Option[Engagement] = {
+    EngageService.find(new EngagementNumber(engagementNumber))
   }
 }

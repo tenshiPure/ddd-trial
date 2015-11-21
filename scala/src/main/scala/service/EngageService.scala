@@ -6,7 +6,7 @@ import datasource.engagement.mobile.line.sim_card.SimCardRepository
 import domain.engagement.mobile.line.Line
 import domain.engagement.mobile.line.sim_card.SimCard
 import domain.engagement.mobile.mnp_in.MnpIn
-import domain.engagement.{Engagement, Fullname, Plan}
+import domain.engagement.{Engagement, EngagementNumber, Fullname, Plan}
 
 object EngageService {
   def engage(fullname: Fullname, plan: Plan, mnpIn: Option[MnpIn]) = {
@@ -25,5 +25,9 @@ object EngageService {
     )
 
     EngagementRepository.engage(engagement)
+  }
+
+  def find(engagementNumber: EngagementNumber): Option[Engagement] = {
+    EngagementRepository.find(engagementNumber)
   }
 }

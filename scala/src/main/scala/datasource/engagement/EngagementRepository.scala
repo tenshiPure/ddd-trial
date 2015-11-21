@@ -4,7 +4,7 @@ import datasource._Database
 import datasource.engagement.mobile.line.LineRepository
 import datasource.engagement.mobile.line.sim_card.SimCardRepository
 import datasource.engagement.mobile.mnp_in.MnpInRepository
-import domain.engagement.{Engagement, EngagementNumber}
+import domain.engagement.{Engagement, EngagementNumber, Fullname, _Plan}
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -22,6 +22,10 @@ object EngagementRepository {
       case Some(v) => MnpInRepository.Mapper.insert(engagement.line.simCard.simCardNumber, v)
       case None => // do nothing
     }
+  }
+
+  def find(engagementNumber: EngagementNumber): Option[Engagement] = {
+    Mapper.find(engagementNumber)
   }
 
   object Mapper {
@@ -46,6 +50,27 @@ object EngagementRepository {
       _Database.connect() withSession { implicit session =>
         val _engagements = TableQuery[_Engagements]
         _engagements +=(0, engagement.engagementNumber.value, engagement.fullname.value, engagement.plan.toString)
+      }
+    }
+
+    def find(engagementNumber: EngagementNumber): Option[Engagement] = {
+      _Database.connect() withSession { implicit session =>
+        val _list = TableQuery[_Engagements].filter(_.engagementNumber === engagementNumber.value).list
+
+        if (_list.isEmpty) None
+        else {
+          val row = _list.head
+
+          Some(
+            Engagement(
+              new EngagementNumber(row._2),
+              Fullname(row._3),
+              _Plan.create(row._4),
+              null,
+              null
+            )
+          )
+        }
       }
     }
   }
