@@ -8,6 +8,8 @@ import domain.engagement.{Engagement, EngagementNumber}
 import scala.slick.driver.SQLiteDriver.simple._
 
 object EngagementRepository {
+  def allocateEngagementNumber: EngagementNumber = new EngagementNumber(Mapper.allocate)
+
   def engage(engagement: Engagement) = {
     Mapper.insert(engagement)
 
@@ -32,11 +34,7 @@ object EngagementRepository {
       def * = (id, engagementNumber, fullname, plan)
     }
 
-    def allocateEngagementNumber(): EngagementNumber = {
-      EngagementNumber(
-        _Database.allocate(Mapper.name).toString
-      )
-    }
+    def allocate: Int = _Database.allocate(Mapper.name)
 
     def insert(engagement: Engagement) = {
       _Database.connect() withSession { implicit session =>

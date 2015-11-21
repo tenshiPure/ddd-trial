@@ -1,6 +1,8 @@
 package domain.engagement
 
-case class EngagementNumber(value: String) {
+class EngagementNumber(val value: String) {
+  def this(value: Int) = this("en" + value.toString)
 
+  override def toString: String = "EngagementNumber(" + value + ")"
 }
 

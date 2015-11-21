@@ -2,10 +2,12 @@ package datasource.engagement.line
 
 import datasource._Database
 import domain.engagement.Engagement
+import domain.engagement.line.LineNumber
 
 import scala.slick.driver.SQLiteDriver.simple._
 
 object LineRepository {
+  def allocateLineNumber: LineNumber = new LineNumber(Mapper.allocate)
 
   object Mapper {
 
@@ -20,6 +22,8 @@ object LineRepository {
 
       def * = (id, engagementNumber, lineNumber)
     }
+
+    def allocate: Int = _Database.allocate(Mapper.name)
 
     def insert(engagement: Engagement) = {
       _Database.connect() withSession { implicit session =>
