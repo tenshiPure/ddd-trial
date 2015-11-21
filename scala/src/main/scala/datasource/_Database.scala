@@ -17,12 +17,42 @@ object _Database {
   def connect() = Database.forURL("jdbc:sqlite:" + path, driver = "org.sqlite.JDBC")
 
   def init() = {
+    drop()
+    create()
+  }
+
+  private def drop() = {
+    if (exists()) new File(path).delete()
+  }
+
+  private def create() = {
     _Database.connect() withSession { implicit session =>
       if (!_Database.exists()) {
         TableQuery[EngagementRepository.Mapper._Engagements].ddl.create
         TableQuery[LineRepository.Mapper._Lines].ddl.create
         TableQuery[SimCardRepository.Mapper._SimCards].ddl.create
         TableQuery[MnpInRepository.Mapper._MnpIns].ddl.create
+      }
+    }
+  }
+
+  def insertFixture(fixture: Fixture) = {
+    _Database.connect() withSession { implicit session =>
+      TableQuery[EngagementRepository.Mapper._Engagements] +=(fixture.n, fixture.en, fixture.name, fixture.plan)
+
+      fixture.ln match {
+        case Some(ln) => TableQuery[LineRepository.Mapper._Lines] +=(fixture.n, fixture.en, ln)
+        case _ => //do nothing
+      }
+
+      fixture.cn match {
+        case Some(cn) => TableQuery[SimCardRepository.Mapper._SimCards] +=(fixture.n, fixture.ln.get, cn)
+        case _ => //do nothing
+      }
+
+      fixture.msisdn match {
+        case Some(msisdn) => TableQuery[MnpInRepository.Mapper._MnpIns] +=(fixture.n, fixture.cn.get, msisdn)
+        case _ => //do nothing
       }
     }
   }

@@ -20,7 +20,7 @@ object EngagementRepository {
 
     engagement.line.simCard.mnpIn match {
       case Some(v) => MnpInRepository.Mapper.insert(engagement.line.simCard.simCardNumber, v)
-      case None => // do nothing
+      case _ => // do nothing
     }
   }
 
