@@ -1,12 +1,10 @@
-import java.io.File
-
 import datasource._Database
 import datasource.engagement.EngagementRepository
 import domain.engagement._
-import domain.engagement.line.Line
 import domain.engagement.line.mnp_in.{MnpIn, Msisdn}
+import domain.engagement.line.{Line, LineNumber}
 import domain.engagement.share_line.{ShareLine, ShareLines}
-import domain.engagement.sim_card.SimCard
+import domain.engagement.sim_card.{SimCard, SimCardNumber}
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -34,6 +32,7 @@ object Main {
     val shareLines = if (hasShareLines) List(
       ShareLine(
         SimCard(
+          SimCardNumber("1"),
           shareMnpIn
         )
       )
@@ -41,11 +40,13 @@ object Main {
     else List()
 
     Engagement(
-      EngagementNumber("en1"),
+      EngagementNumber("1"),
       Fullname("john doe"),
       NormalPlan,
       Line(
+        LineNumber("1"),
         SimCard(
+          SimCardNumber("1"),
           mnpIn
         )
       ),

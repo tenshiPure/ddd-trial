@@ -3,23 +3,20 @@ package datasource.engagement
 import datasource._Database
 import datasource.engagement.line.LineRepository
 import datasource.engagement.line.mnp_in.MnpInRepository
-import domain.engagement.Engagement
+import domain.engagement.{Engagement, EngagementNumber}
 
 import scala.slick.driver.SQLiteDriver.simple._
 
 object EngagementRepository {
   def engage(engagement: Engagement) = {
-    val allocated = _Database.allocate(_Repository.name)
-    _Repository.insert(allocated, engagement)
+    Mapper.insert(engagement)
 
-    val allocated2 = _Database.allocate(LineRepository._Repository.name)
-    LineRepository._Repository.insert(allocated2, engagement)
+    LineRepository.Mapper.insert(engagement)
 
-    val allocated3 = _Database.allocate(MnpInRepository._Repository.name)
-    MnpInRepository._Repository.insert(allocated3, engagement)
+    MnpInRepository.Mapper.insert(engagement)
   }
 
-  object _Repository {
+  object Mapper {
 
     def name = "Engagements"
 
@@ -35,10 +32,16 @@ object EngagementRepository {
       def * = (id, engagementNumber, fullname, plan)
     }
 
-    def insert(allocated: Int, engagement: Engagement) = {
+    def allocateEngagementNumber(): EngagementNumber = {
+      EngagementNumber(
+        _Database.allocate(Mapper.name).toString
+      )
+    }
+
+    def insert(engagement: Engagement) = {
       _Database.connect() withSession { implicit session =>
         val _engagements = TableQuery[_Engagements]
-        _engagements +=(allocated, engagement.engagementNumber.value, engagement.fullname.value, engagement.plan.toString)
+        _engagements +=(0, engagement.engagementNumber.value, engagement.fullname.value, engagement.plan.toString)
       }
     }
   }

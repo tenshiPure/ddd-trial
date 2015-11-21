@@ -18,9 +18,9 @@ object _Database {
   def init() = {
     _Database.connect() withSession { implicit session =>
       if (!_Database.exists()) {
-        TableQuery[EngagementRepository._Repository._Engagements].ddl.create
-        TableQuery[LineRepository._Repository._Lines].ddl.create
-        TableQuery[MnpInRepository._Repository._MnpIns].ddl.create
+        TableQuery[EngagementRepository.Mapper._Engagements].ddl.create
+        TableQuery[LineRepository.Mapper._Lines].ddl.create
+        TableQuery[MnpInRepository.Mapper._MnpIns].ddl.create
       }
     }
   }
