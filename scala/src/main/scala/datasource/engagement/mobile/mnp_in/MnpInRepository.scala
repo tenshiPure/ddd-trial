@@ -1,4 +1,4 @@
-package datasource.engagement.line.mnp_in
+package datasource.engagement.mobile.mnp_in
 
 import datasource._Database
 import domain.engagement.Engagement

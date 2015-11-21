@@ -3,8 +3,8 @@ package datasource
 import java.io.File
 
 import datasource.engagement.EngagementRepository
-import datasource.engagement.line.LineRepository
-import datasource.engagement.line.mnp_in.MnpInRepository
+import datasource.engagement.mobile.line.LineRepository
+import datasource.engagement.mobile.mnp_in.MnpInRepository
 
 import scala.slick.driver.SQLiteDriver.simple._
 

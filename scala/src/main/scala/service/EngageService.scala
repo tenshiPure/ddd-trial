@@ -1,11 +1,11 @@
 package service
 
 import datasource.engagement.EngagementRepository
-import datasource.engagement.line.LineRepository
-import datasource.engagement.sim_card.SimCardRepository
-import domain.engagement.line.Line
-import domain.engagement.line.mnp_in.MnpIn
-import domain.engagement.sim_card.SimCard
+import datasource.engagement.mobile.line.LineRepository
+import datasource.engagement.mobile.line.sim_card.SimCardRepository
+import domain.engagement.mobile.line.Line
+import domain.engagement.mobile.line.sim_card.SimCard
+import domain.engagement.mobile.mnp_in.MnpIn
 import domain.engagement.{Engagement, Fullname, Plan}
 
 object EngageService {
@@ -24,7 +24,6 @@ object EngageService {
       null
     )
 
-    println(engagement)
-    //    EngagementRepository.engage(engagement)
+    EngagementRepository.engage(engagement)
   }
 }

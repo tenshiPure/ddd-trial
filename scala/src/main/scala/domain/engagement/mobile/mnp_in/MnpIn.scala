@@ -1,4 +1,4 @@
-package domain.engagement.line.mnp_in
+package domain.engagement.mobile.mnp_in
 
 case class MnpIn(msisdn: Msisdn) {
 

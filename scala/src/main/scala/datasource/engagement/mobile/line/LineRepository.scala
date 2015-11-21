@@ -1,8 +1,8 @@
-package datasource.engagement.line
+package datasource.engagement.mobile.line
 
 import datasource._Database
 import domain.engagement.Engagement
-import domain.engagement.line.LineNumber
+import domain.engagement.mobile.line.LineNumber
 
 import scala.slick.driver.SQLiteDriver.simple._
 

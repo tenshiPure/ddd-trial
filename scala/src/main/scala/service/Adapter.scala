@@ -1,6 +1,6 @@
 package service
 
-import domain.engagement.line.mnp_in.{MnpIn, Msisdn}
+import domain.engagement.mobile.mnp_in.{MnpIn, Msisdn}
 import domain.engagement.{Fullname, _Plan}
 
 object Adapter {

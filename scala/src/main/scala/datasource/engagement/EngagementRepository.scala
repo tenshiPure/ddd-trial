@@ -1,8 +1,8 @@
 package datasource.engagement
 
 import datasource._Database
-import datasource.engagement.line.LineRepository
-import datasource.engagement.line.mnp_in.MnpInRepository
+import datasource.engagement.mobile.line.LineRepository
+import datasource.engagement.mobile.mnp_in.MnpInRepository
 import domain.engagement.{Engagement, EngagementNumber}
 
 import scala.slick.driver.SQLiteDriver.simple._
