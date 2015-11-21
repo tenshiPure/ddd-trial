@@ -1,7 +1,8 @@
 package datasource.engagement.mobile.mnp_in
 
 import datasource._Database
-import domain.engagement.Engagement
+import domain.engagement.mobile.line.sim_card.{SimCardNumber, SimCard}
+import domain.engagement.mobile.mnp_in.MnpIn
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -21,10 +22,10 @@ object MnpInRepository {
       def * = (id, simCardNumber, msisdn)
     }
 
-    def insert(engagement: Engagement) = {
+    def insert(simCardNumber: SimCardNumber, mnpIn: MnpIn) = {
       _Database.connect() withSession { implicit session =>
         val _mnpIns = TableQuery[_MnpIns]
-        _mnpIns +=(0, engagement.line.simCard.simCardNumber.value, engagement.line.simCard.mnpIn.get.msisdn.value)
+        _mnpIns +=(0, simCardNumber.value, mnpIn.msisdn.value)
       }
     }
   }

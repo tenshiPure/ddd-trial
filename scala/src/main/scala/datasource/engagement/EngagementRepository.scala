@@ -2,6 +2,7 @@ package datasource.engagement
 
 import datasource._Database
 import datasource.engagement.mobile.line.LineRepository
+import datasource.engagement.mobile.line.sim_card.SimCardRepository
 import datasource.engagement.mobile.mnp_in.MnpInRepository
 import domain.engagement.{Engagement, EngagementNumber}
 
@@ -15,7 +16,12 @@ object EngagementRepository {
 
     LineRepository.Mapper.insert(engagement)
 
-    MnpInRepository.Mapper.insert(engagement)
+    SimCardRepository.Mapper.insert(engagement.line)
+
+    engagement.line.simCard.mnpIn match {
+      case Some(v) => MnpInRepository.Mapper.insert(engagement.line.simCard.simCardNumber, v)
+      case None => // do nothing
+    }
   }
 
   object Mapper {

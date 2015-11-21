@@ -4,6 +4,7 @@ import java.io.File
 
 import datasource.engagement.EngagementRepository
 import datasource.engagement.mobile.line.LineRepository
+import datasource.engagement.mobile.line.sim_card.SimCardRepository
 import datasource.engagement.mobile.mnp_in.MnpInRepository
 
 import scala.slick.driver.SQLiteDriver.simple._
@@ -20,6 +21,7 @@ object _Database {
       if (!_Database.exists()) {
         TableQuery[EngagementRepository.Mapper._Engagements].ddl.create
         TableQuery[LineRepository.Mapper._Lines].ddl.create
+        TableQuery[SimCardRepository.Mapper._SimCards].ddl.create
         TableQuery[MnpInRepository.Mapper._MnpIns].ddl.create
       }
     }
