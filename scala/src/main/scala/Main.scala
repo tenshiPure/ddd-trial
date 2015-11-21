@@ -7,7 +7,12 @@ object Main {
 
 //    Adapter.engage("john doe", "normal", "090-1234-5678")
 
-    val engagement = Adapter.find("en2")
-    println(engagement)
+    try {
+      println(
+        Adapter.find("en1")
+      )
+    } catch {
+      case e: Exception => println(e.getMessage)
+    }
   }
 }

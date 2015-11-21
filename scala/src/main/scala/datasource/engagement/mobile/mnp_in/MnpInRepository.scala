@@ -1,8 +1,8 @@
 package datasource.engagement.mobile.mnp_in
 
 import datasource._Database
-import domain.engagement.mobile.line.sim_card.{SimCardNumber, SimCard}
-import domain.engagement.mobile.mnp_in.MnpIn
+import domain.engagement.mobile.line.sim_card.SimCardNumber
+import domain.engagement.mobile.mnp_in.{MnpIn, Msisdn}
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -26,6 +26,21 @@ object MnpInRepository {
       _Database.connect() withSession { implicit session =>
         val _mnpIns = TableQuery[_MnpIns]
         _mnpIns +=(0, simCardNumber.value, mnpIn.msisdn.value)
+      }
+    }
+
+    def find(simCardNumber: SimCardNumber): Option[MnpIn] = {
+      _Database.connect() withSession { implicit session =>
+        val _list = TableQuery[_MnpIns].filter(_.simCardNumber === simCardNumber.value).list
+
+        if (_list.isEmpty) None
+        else {
+          Some(
+            MnpIn(
+              Msisdn(_list.head._3)
+            )
+          )
+        }
       }
     }
   }

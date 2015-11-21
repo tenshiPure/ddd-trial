@@ -1,8 +1,9 @@
 package datasource.engagement.mobile.line
 
 import datasource._Database
-import domain.engagement.Engagement
-import domain.engagement.mobile.line.LineNumber
+import datasource.engagement.mobile.line.sim_card.SimCardRepository
+import domain.engagement.mobile.line.{Line, LineNumber}
+import domain.engagement.{Engagement, EngagementNumber}
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -29,6 +30,22 @@ object LineRepository {
       _Database.connect() withSession { implicit session =>
         val _lines = TableQuery[_Lines]
         _lines +=(0, engagement.engagementNumber.value, engagement.line.lineNumber.value)
+      }
+    }
+
+    def find(engagementNumber: EngagementNumber): Line = {
+      _Database.connect() withSession { implicit session =>
+        val _list = TableQuery[_Lines].filter(_.engagementNumber === engagementNumber.value).list
+
+        if (_list.isEmpty) throw new Exception("no such Line found by " + engagementNumber)
+        else {
+          val lineNumber = new LineNumber(_list.head._3)
+
+          Line(
+            lineNumber,
+            SimCardRepository.Mapper.find(lineNumber)
+          )
+        }
       }
     }
   }

@@ -66,7 +66,7 @@ object EngagementRepository {
               new EngagementNumber(row._2),
               Fullname(row._3),
               _Plan.create(row._4),
-              null,
+              LineRepository.Mapper.find(engagementNumber),
               null
             )
           )

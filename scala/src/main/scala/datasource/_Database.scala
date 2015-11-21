@@ -38,7 +38,7 @@ object _Database {
   def allocate(name: String): Int = {
     _Database.connect() withSession { implicit session =>
       val _list = TableQuery[_Sequences].filter(_.name === name).list
-      if (_list.isEmpty) 1 else _list.head._2
+      if (_list.isEmpty) 1 else _list.head._2 + 1
     }
   }
 }
