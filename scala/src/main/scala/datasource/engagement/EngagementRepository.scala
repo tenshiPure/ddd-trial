@@ -1,6 +1,8 @@
 package datasource.engagement
 
 import datasource._Database
+import datasource.engagement.line.LineRepository
+import datasource.engagement.line.mnp_in.MnpInRepository
 import domain.engagement.Engagement
 
 import scala.slick.driver.SQLiteDriver.simple._
@@ -9,6 +11,12 @@ object EngagementRepository {
   def engage(engagement: Engagement) = {
     val allocated = _Database.allocate(_Repository.name)
     _Repository.insert(allocated, engagement)
+
+    val allocated2 = _Database.allocate(LineRepository._Repository.name)
+    LineRepository._Repository.insert(allocated2, engagement)
+
+    val allocated3 = _Database.allocate(MnpInRepository._Repository.name)
+    MnpInRepository._Repository.insert(allocated3, engagement)
   }
 
   object _Repository {
@@ -16,7 +24,7 @@ object EngagementRepository {
     def name = "Engagements"
 
     class _Engagements(tag: Tag) extends Table[(Int, String, String, String)](tag, name) {
-      def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
+      def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
       def engagementNumber = column[String]("engagement_number")
 

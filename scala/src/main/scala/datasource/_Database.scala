@@ -2,9 +2,11 @@ package datasource
 
 import java.io.File
 
-import scala.slick.driver.SQLiteDriver.simple._
-
 import datasource.engagement.EngagementRepository
+import datasource.engagement.line.LineRepository
+import datasource.engagement.line.mnp_in.MnpInRepository
+
+import scala.slick.driver.SQLiteDriver.simple._
 
 object _Database {
   val path = "src/main/resources/db/test.sqlite3"
@@ -17,6 +19,8 @@ object _Database {
     _Database.connect() withSession { implicit session =>
       if (!_Database.exists()) {
         TableQuery[EngagementRepository._Repository._Engagements].ddl.create
+        TableQuery[LineRepository._Repository._Lines].ddl.create
+        TableQuery[MnpInRepository._Repository._MnpIns].ddl.create
       }
     }
   }
