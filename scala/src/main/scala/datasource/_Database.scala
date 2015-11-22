@@ -61,8 +61,19 @@ object _Database {
       }
 
       fixture.msisdn match {
-        case Some(msisdn) => TableQuery[MnpInRepository.Mapper._MnpIns] +=(fixture.n, fixture.cn.get, msisdn)
+        case Some(_msisdn) => TableQuery[MnpInRepository.Mapper._MnpIns] +=(fixture.n, fixture.cn.get, _msisdn)
         case _ => //do nothing
+      }
+
+      fixture.shares.zipWithIndex.foreach {
+        case ((sl, sc, msisdn), n) =>
+          TableQuery[ShareLineRepository.Mapper._ShareLines] +=(n, fixture.en, sl)
+          TableQuery[ShareSimCardRepository.Mapper._ShareSimCards] +=(n, sl, sc)
+          msisdn match {
+            case Some(_msisdn) => TableQuery[ShareMnpInRepository.Mapper._ShareMnpIns] +=(n, sc, _msisdn)
+            case _ => //do nothing
+          }
+
       }
     }
   }
