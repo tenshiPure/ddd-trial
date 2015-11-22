@@ -7,8 +7,8 @@ import datasource.engagement.mobile.line.sim_card.mnp_in.MnpInRepository
 import datasource.engagement.mobile.share_line.ShareLineRepository
 import datasource.engagement.mobile.share_line.share_sim_card.ShareSimCardRepository
 import datasource.engagement.mobile.share_line.share_sim_card.share_mnp_in.ShareMnpInRepository
+import domain.engagement._
 import domain.engagement.mobile.share_line.ShareLines
-import domain.engagement.{Engagement, EngagementNumber, Fullname, Plan}
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -47,6 +47,19 @@ object EngagementRepository {
     find(engagementNumber) match {
       case Some(engagement) => Mapper.update(engagement.planChange(dstPlan))
       case _ => throw new Exception("no such Engagement found by " + engagementNumber)
+    }
+  }
+
+  def getFullname(engagementNumber: EngagementNumber): Fullname = {
+    val doubtEngagement_ = find_(engagementNumber)
+
+    doubtEngagement_.verify().fullname
+  }
+
+  private def find_(engagementNumber: EngagementNumber): DoubtEngagement_ = {
+    Mapper.find(engagementNumber) match {
+      case Some(e) => new DoubtEngagement_(e)
+      case _ => new DoubtEngagement_()
     }
   }
 

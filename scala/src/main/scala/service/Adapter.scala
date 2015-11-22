@@ -22,4 +22,8 @@ object Adapter {
   def planChange(engagementNumber: String, dstPlanCode: String) = {
     EngageService.planChange(new EngagementNumber(engagementNumber), Plan.create(dstPlanCode))
   }
+
+  def getFullname(engagementNumber: String): Fullname = {
+    EngageService.getFullname(new EngagementNumber(engagementNumber))
+  }
 }

@@ -64,6 +64,15 @@ object Main {
 
     // invalid plan
     testPlanChange("en1", Fixture.noMnpInWithNoShareLines, "TimeParadox")
+
+
+    println("\ntest get full-name")
+
+    // existent
+    testGetFullname("en1", Fixture.noMnpInWithNoShareLines)
+
+    // non exists
+    testGetFullname("en2", Fixture.noMnpInWithNoShareLines)
   }
 
   private def testEngage(en: String, name: String, plan: String, msisdn: String, msisdns: List[String]) = {
@@ -94,6 +103,20 @@ object Main {
     try {
       Adapter.planChange(en, dstPlan)
       find(en)
+    } catch {
+      case e: Exception => println(e.getMessage)
+    }
+  }
+
+  private def testGetFullname(en: String, fixture: Fixture) = {
+    _Database.init()
+
+    _Database.insertFixture(fixture)
+
+    try {
+      println(
+        Adapter.getFullname(en)
+      )
     } catch {
       case e: Exception => println(e.getMessage)
     }

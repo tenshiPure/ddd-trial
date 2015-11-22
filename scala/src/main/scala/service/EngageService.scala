@@ -48,4 +48,8 @@ object EngageService {
   def planChange(engagementNumber: EngagementNumber, dstPlan: Plan) = {
     EngagementRepository.planChange(engagementNumber, dstPlan)
   }
+
+  def getFullname(engagementNumber: EngagementNumber): Fullname = {
+    EngagementRepository.getFullname(engagementNumber)
+  }
 }

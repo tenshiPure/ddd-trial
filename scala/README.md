@@ -58,11 +58,22 @@ public void engage(Engagement e);
 + DB設計やカラムとエンティティのマッピングは適当
 + 制約は一切無し
 + イベントテーブルも無し
- + 更新処理はudpateで行う
+ + 更新処理はupdateで行う
 
 ### テスト
 + 目視テスト
 + Fixtureを用意
+
+### 試行
++ findの戻りがOption
+ + Engagement
+ + 基本match case
+ + これで良い気がしてきた
++ findの戻りがNullObject → [doubt-engagement](#)
+ + DoubtEngagement\_
+ + でも面倒だからかなり雑な書き方
+ + verify()を通してValidEngagement\_にしてから使う
+ + 例外はverify()の中でもverify(Supplier sup)でも別に良い気がしてきた
 
 ### その他
 + publicリポジトリのため、一部のクラスの名称はマスクの意味で変更している
