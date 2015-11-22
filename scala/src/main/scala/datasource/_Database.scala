@@ -6,6 +6,7 @@ import datasource.engagement.EngagementRepository
 import datasource.engagement.mobile.line.LineRepository
 import datasource.engagement.mobile.line.sim_card.SimCardRepository
 import datasource.engagement.mobile.mnp_in.MnpInRepository
+import datasource.engagement.mobile.share_line.ShareLineRepository
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -32,6 +33,7 @@ object _Database {
         TableQuery[LineRepository.Mapper._Lines].ddl.create
         TableQuery[SimCardRepository.Mapper._SimCards].ddl.create
         TableQuery[MnpInRepository.Mapper._MnpIns].ddl.create
+        TableQuery[ShareLineRepository.Mapper._ShareLines].ddl.create
       }
     }
   }

@@ -3,12 +3,15 @@ import service.Adapter
 
 object Main {
   def main(args: Array[String]): Unit = {
-    //    testEngage()
-
-    testFind(Fixture.allInOne)
-    testFind(Fixture.noMnpIn)
-
-    testFind(Fixture.noLine)
+    println("\ntest engage")
+    testEngage()
+    //
+    //    println("\ntest find (normal)")
+    //    testFind(Fixture.allInOne)
+    //    testFind(Fixture.noMnpIn)
+    //
+    //    println("\ntest find (irregular)")
+    //    testFind(Fixture.noLine)
   }
 
   private def testEngage() = {

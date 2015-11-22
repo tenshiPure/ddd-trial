@@ -4,6 +4,7 @@ import datasource._Database
 import datasource.engagement.mobile.line.LineRepository
 import datasource.engagement.mobile.line.sim_card.SimCardRepository
 import datasource.engagement.mobile.mnp_in.MnpInRepository
+import datasource.engagement.mobile.share_line.ShareLineRepository
 import domain.engagement.{Engagement, EngagementNumber, Fullname, _Plan}
 
 import scala.slick.driver.SQLiteDriver.simple._
@@ -22,6 +23,10 @@ object EngagementRepository {
       case Some(v) => MnpInRepository.Mapper.insert(engagement.line.simCard.simCardNumber, v)
       case _ => // do nothing
     }
+
+    engagement.shareLines.shareLines.foreach(
+      shareLine => ShareLineRepository.Mapper.insert(engagement.engagementNumber, shareLine)
+    )
   }
 
   def find(engagementNumber: EngagementNumber): Option[Engagement] = {
@@ -55,11 +60,11 @@ object EngagementRepository {
 
     def find(engagementNumber: EngagementNumber): Option[Engagement] = {
       _Database.connect() withSession { implicit session =>
-        val _list = TableQuery[_Engagements].filter(_.engagementNumber === engagementNumber.value).list
+        val _engagements = TableQuery[_Engagements].filter(_.engagementNumber === engagementNumber.value).list
 
-        if (_list.isEmpty) None
+        if (_engagements.isEmpty) None
         else {
-          val row = _list.head
+          val row = _engagements.head
 
           Some(
             Engagement(

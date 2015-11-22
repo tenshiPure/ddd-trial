@@ -31,13 +31,13 @@ object MnpInRepository {
 
     def find(simCardNumber: SimCardNumber): Option[MnpIn] = {
       _Database.connect() withSession { implicit session =>
-        val _list = TableQuery[_MnpIns].filter(_.simCardNumber === simCardNumber.value).list
+        val _mnpIns = TableQuery[_MnpIns].filter(_.simCardNumber === simCardNumber.value).list
 
-        if (_list.isEmpty) None
+        if (_mnpIns.isEmpty) None
         else {
           Some(
             MnpIn(
-              Msisdn(_list.head._3)
+              Msisdn(_mnpIns.head._3)
             )
           )
         }

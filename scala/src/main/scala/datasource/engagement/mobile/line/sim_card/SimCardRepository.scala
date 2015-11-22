@@ -28,18 +28,18 @@ object SimCardRepository {
 
     def insert(line: Line) = {
       _Database.connect() withSession { implicit session =>
-        val _lines = TableQuery[_SimCards]
-        _lines +=(0, line.lineNumber.value, line.simCard.simCardNumber.value)
+        val _simCards = TableQuery[_SimCards]
+        _simCards +=(0, line.lineNumber.value, line.simCard.simCardNumber.value)
       }
     }
 
     def find(lineNumber: LineNumber): SimCard = {
       _Database.connect() withSession { implicit session =>
-        val _list = TableQuery[_SimCards].filter(_.lineNumber === lineNumber.value).list
+        val _simCards = TableQuery[_SimCards].filter(_.lineNumber === lineNumber.value).list
 
-        if (_list.isEmpty) throw new Exception("no such SimCard found by " + lineNumber)
+        if (_simCards.isEmpty) throw new Exception("no such SimCard found by " + lineNumber)
         else {
-          val simCardNumber = new SimCardNumber(_list.head._3)
+          val simCardNumber = new SimCardNumber(_simCards.head._3)
 
           SimCard(
             simCardNumber,

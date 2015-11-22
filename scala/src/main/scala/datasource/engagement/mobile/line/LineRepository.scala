@@ -35,11 +35,11 @@ object LineRepository {
 
     def find(engagementNumber: EngagementNumber): Line = {
       _Database.connect() withSession { implicit session =>
-        val _list = TableQuery[_Lines].filter(_.engagementNumber === engagementNumber.value).list
+        val _lines = TableQuery[_Lines].filter(_.engagementNumber === engagementNumber.value).list
 
-        if (_list.isEmpty) throw new Exception("no such Line found by " + engagementNumber)
+        if (_lines.isEmpty) throw new Exception("no such Line found by " + engagementNumber)
         else {
-          val lineNumber = new LineNumber(_list.head._3)
+          val lineNumber = new LineNumber(_lines.head._3)
 
           Line(
             lineNumber,
