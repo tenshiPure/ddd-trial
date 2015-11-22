@@ -1,4 +1,4 @@
-package datasource.engagement.mobile.mnp_in
+package datasource.engagement.mobile.line.sim_card.mnp_in
 
 import datasource._Database
 import domain.engagement.mobile.line.sim_card.SimCardNumber

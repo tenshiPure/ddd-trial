@@ -3,8 +3,10 @@ package datasource.engagement
 import datasource._Database
 import datasource.engagement.mobile.line.LineRepository
 import datasource.engagement.mobile.line.sim_card.SimCardRepository
-import datasource.engagement.mobile.mnp_in.MnpInRepository
+import datasource.engagement.mobile.line.sim_card.mnp_in.MnpInRepository
 import datasource.engagement.mobile.share_line.ShareLineRepository
+import datasource.engagement.mobile.share_line.share_sim_card.ShareSimCardRepository
+import datasource.engagement.mobile.share_line.share_sim_card.share_mnp_in.ShareMnpInRepository
 import domain.engagement.{Engagement, EngagementNumber, Fullname, _Plan}
 
 import scala.slick.driver.SQLiteDriver.simple._
@@ -25,7 +27,14 @@ object EngagementRepository {
     }
 
     engagement.shareLines.shareLines.foreach(
-      shareLine => ShareLineRepository.Mapper.insert(engagement.engagementNumber, shareLine)
+      shareLine => {
+        ShareLineRepository.Mapper.insert(engagement.engagementNumber, shareLine)
+        ShareSimCardRepository.Mapper.insert(shareLine)
+        shareLine.shareSimCard.mnpIn match {
+          case Some(v) => ShareMnpInRepository.Mapper.insert(shareLine.shareSimCard.shareSimCardNumber, v)
+          case _ => // do nothing
+        }
+      }
     )
   }
 

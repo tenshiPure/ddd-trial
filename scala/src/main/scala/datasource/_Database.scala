@@ -5,8 +5,10 @@ import java.io.File
 import datasource.engagement.EngagementRepository
 import datasource.engagement.mobile.line.LineRepository
 import datasource.engagement.mobile.line.sim_card.SimCardRepository
-import datasource.engagement.mobile.mnp_in.MnpInRepository
+import datasource.engagement.mobile.line.sim_card.mnp_in.MnpInRepository
 import datasource.engagement.mobile.share_line.ShareLineRepository
+import datasource.engagement.mobile.share_line.share_sim_card.ShareSimCardRepository
+import datasource.engagement.mobile.share_line.share_sim_card.share_mnp_in.ShareMnpInRepository
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -30,10 +32,14 @@ object _Database {
     _Database.connect() withSession { implicit session =>
       if (!_Database.exists()) {
         TableQuery[EngagementRepository.Mapper._Engagements].ddl.create
+
         TableQuery[LineRepository.Mapper._Lines].ddl.create
         TableQuery[SimCardRepository.Mapper._SimCards].ddl.create
         TableQuery[MnpInRepository.Mapper._MnpIns].ddl.create
+
         TableQuery[ShareLineRepository.Mapper._ShareLines].ddl.create
+        TableQuery[ShareSimCardRepository.Mapper._ShareSimCards].ddl.create
+        TableQuery[ShareMnpInRepository.Mapper._ShareMnpIns].ddl.create
       }
     }
   }

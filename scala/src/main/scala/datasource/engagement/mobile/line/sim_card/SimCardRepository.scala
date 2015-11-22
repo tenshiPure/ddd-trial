@@ -1,7 +1,7 @@
 package datasource.engagement.mobile.line.sim_card
 
 import datasource._Database
-import datasource.engagement.mobile.mnp_in.MnpInRepository
+import datasource.engagement.mobile.line.sim_card.mnp_in.MnpInRepository
 import domain.engagement.mobile.line.sim_card.{SimCard, SimCardNumber}
 import domain.engagement.mobile.line.{Line, LineNumber}
 
