@@ -18,4 +18,8 @@ object Adapter {
   def find(engagementNumber: String): Option[Engagement] = {
     EngageService.find(new EngagementNumber(engagementNumber))
   }
+
+  def planChange(engagementNumber: String, dstPlanCode: String) = {
+    EngageService.planChange(new EngagementNumber(engagementNumber), Plan.create(dstPlanCode))
+  }
 }

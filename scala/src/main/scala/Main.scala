@@ -49,6 +49,21 @@ object Main {
 
     // invalid foreign key
     testFind(Fixture.noLine)
+
+
+    println("\ntest plan-change")
+
+    // to secret plan
+    testPlanChange("en1", Fixture.noMnpInWithNoShareLines, "UnitTestPlan")
+
+
+    println("\ntest plan-change (irregular)")
+
+    // invalid primary key
+    testPlanChange("invalid", Fixture.noMnpInWithNoShareLines, "UnitTestPlan")
+
+    // invalid plan
+    testPlanChange("en1", Fixture.noMnpInWithNoShareLines, "TimeParadox")
   }
 
   private def testEngage(en: String, name: String, plan: String, msisdn: String, msisdns: List[String]) = {
@@ -69,6 +84,19 @@ object Main {
     _Database.insertFixture(fixture)
 
     find(fixture.en)
+  }
+
+  private def testPlanChange(en: String, fixture: Fixture, dstPlan: String) = {
+    _Database.init()
+
+    _Database.insertFixture(fixture)
+
+    try {
+      Adapter.planChange(en, dstPlan)
+      find(en)
+    } catch {
+      case e: Exception => println(e.getMessage)
+    }
   }
 
   private def find(key: String) = {

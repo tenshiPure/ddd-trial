@@ -43,6 +43,13 @@ object EngagementRepository {
     Mapper.find(engagementNumber)
   }
 
+  def planChange(engagementNumber: EngagementNumber, dstPlan: Plan) = {
+    find(engagementNumber) match {
+      case Some(engagement) => Mapper.update(engagement.planChange(dstPlan))
+      case _ => throw new Exception("no such Engagement found by " + engagementNumber)
+    }
+  }
+
   object Mapper {
 
     def name = "Engagements"
@@ -87,6 +94,14 @@ object EngagementRepository {
             )
           )
         }
+      }
+    }
+
+    def update(engagement: Engagement) = {
+      _Database.connect() withSession { implicit session =>
+        val _pk = TableQuery[_Engagements].filter(_.engagementNumber === engagement.engagementNumber.value).list.head._1
+
+        TableQuery[_Engagements].update(_pk, engagement.engagementNumber.value, engagement.fullname.value, engagement.plan.toString)
       }
     }
   }

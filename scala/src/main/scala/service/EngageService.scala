@@ -44,4 +44,8 @@ object EngageService {
   def find(engagementNumber: EngagementNumber): Option[Engagement] = {
     EngagementRepository.find(engagementNumber)
   }
+
+  def planChange(engagementNumber: EngagementNumber, dstPlan: Plan) = {
+    EngagementRepository.planChange(engagementNumber, dstPlan)
+  }
 }
