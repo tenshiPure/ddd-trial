@@ -54,9 +54,13 @@ object Main {
   private def testEngage(en: String, name: String, plan: String, msisdn: String, msisdns: List[String]) = {
     _Database.init()
 
-    Adapter.engage(name, plan, msisdn, msisdns)
+    try {
+      Adapter.engage(name, plan, msisdn, msisdns)
+      find(en)
+    } catch {
+      case e: Exception => println(e.getMessage)
+    }
 
-    find(en)
   }
 
   private def testFind(fixture: Fixture) = {
