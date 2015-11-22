@@ -58,11 +58,20 @@ public void engage(Engagement e);
 + DB設計やカラムとエンティティのマッピングは適当
 + 制約は一切無し
 + イベントテーブルも無し
- + 更新処理はudpateで行う
+ + 更新処理はupdateで行う
 
 ### テスト
 + 目視テスト
 + Fixtureを用意
+
+### 試行
++ packageを切らずに同一ファイルに複数のValueObjectを定義する → [member](#)
+ + ファイル多過ぎ、ValueObjectの定義に行数が必要過ぎって思ってた
+ + ValueObjectが1行で書けるので同一ファイルに全部入れてみた（雑）
+ + 実際はもう少しは分割ファイルにしてパッケージ構成を表すのかな
+ + でもパッケージ構成とドメイン設計は別に完全に一致する物でも無いしなぁ
+ + コンフリクトしやすいかも
+ + **@AllArgsConstructor**, **@EqualsHashCode**, **@ToString**, **@Getter**, **private**, **final** あたりは満たしているはず
 
 ### その他
 + publicリポジトリのため、一部のクラスの名称はマスクの意味で変更している

@@ -1,5 +1,5 @@
 import datasource.{Fixture, _Database}
-import service.Adapter
+import service.{Adapter, MemberService}
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -60,10 +60,29 @@ object Main {
     println("\ntest plan-change (irregular)")
 
     // invalid primary key
-    testPlanChange("invalid", Fixture.noMnpInWithNoShareLines, "UnitTestPlan")
+    testPlanChange("en-invalid", Fixture.noMnpInWithNoShareLines, "UnitTestPlan")
 
     // invalid plan
     testPlanChange("en1", Fixture.noMnpInWithNoShareLines, "TimeParadox")
+
+
+    println("\ntest member service")
+
+    // valid input
+    println(MemberService.create(1990, "111-1111"))
+
+    // invalid input
+    try {
+      println(MemberService.create(1990, "invalid-zip-code"))
+    } catch {
+      case e: Exception => println(e.getMessage)
+    }
+
+    // adult
+    println(MemberService.create(1990, "111-1111").isAdult)
+
+    // not adult
+    println(MemberService.create(2000, "111-1111").isAdult)
   }
 
   private def testEngage(en: String, name: String, plan: String, msisdn: String, msisdns: List[String]) = {
