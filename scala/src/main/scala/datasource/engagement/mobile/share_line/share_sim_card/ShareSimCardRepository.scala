@@ -28,8 +28,7 @@ object ShareSimCardRepository {
 
     def insert(shareLine: ShareLine) = {
       _Database.connect() withSession { implicit session =>
-        val _shareSimCards = TableQuery[_ShareSimCards]
-        _shareSimCards +=(0, shareLine.shareLineNumber.value, shareLine.shareSimCard.shareSimCardNumber.value)
+        TableQuery[_ShareSimCards] +=(0, shareLine.shareLineNumber.value, shareLine.shareSimCard.shareSimCardNumber.value)
       }
     }
 

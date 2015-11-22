@@ -63,8 +63,7 @@ object EngagementRepository {
 
     def insert(engagement: Engagement) = {
       _Database.connect() withSession { implicit session =>
-        val _engagements = TableQuery[_Engagements]
-        _engagements +=(0, engagement.engagementNumber.value, engagement.fullname.value, engagement.plan.toString)
+        TableQuery[_Engagements] +=(0, engagement.engagementNumber.value, engagement.fullname.value, engagement.plan.toString)
       }
     }
 

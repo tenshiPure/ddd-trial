@@ -28,8 +28,7 @@ object LineRepository {
 
     def insert(engagement: Engagement) = {
       _Database.connect() withSession { implicit session =>
-        val _lines = TableQuery[_Lines]
-        _lines +=(0, engagement.engagementNumber.value, engagement.line.lineNumber.value)
+        TableQuery[_Lines] +=(0, engagement.engagementNumber.value, engagement.line.lineNumber.value)
       }
     }
 

@@ -28,8 +28,7 @@ object ShareLineRepository {
 
     def insert(engagementNumber: EngagementNumber, shareLine: ShareLine) = {
       _Database.connect() withSession { implicit session =>
-        val _shareLines = TableQuery[_ShareLines]
-        _shareLines +=(0, engagementNumber.value, shareLine.shareLineNumber.value)
+        TableQuery[_ShareLines] +=(0, engagementNumber.value, shareLine.shareLineNumber.value)
       }
     }
 

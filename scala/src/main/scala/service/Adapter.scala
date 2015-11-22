@@ -8,10 +8,12 @@ object Adapter {
     EngageService.engage(
       Fullname(fullname),
       Plan.create(planCode),
-      if (msisdn == "") None else Some(MnpIn(Msisdn(msisdn))),
-      shareMsisdns.map(shareMsisdn => if (shareMsisdn == "") None else Some(MnpIn(Msisdn(shareMsisdn))))
+      createMnpIn(msisdn),
+      shareMsisdns.map(createMnpIn)
     )
   }
+
+  private def createMnpIn(msisdn: String): Option[MnpIn] = if (msisdn == "") None else Some(MnpIn(Msisdn(msisdn)))
 
   def find(engagementNumber: String): Option[Engagement] = {
     EngageService.find(new EngagementNumber(engagementNumber))

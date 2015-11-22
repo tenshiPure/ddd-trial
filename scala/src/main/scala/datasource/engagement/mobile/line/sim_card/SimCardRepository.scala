@@ -28,8 +28,7 @@ object SimCardRepository {
 
     def insert(line: Line) = {
       _Database.connect() withSession { implicit session =>
-        val _simCards = TableQuery[_SimCards]
-        _simCards +=(0, line.lineNumber.value, line.simCard.simCardNumber.value)
+        TableQuery[_SimCards] +=(0, line.lineNumber.value, line.simCard.simCardNumber.value)
       }
     }
 

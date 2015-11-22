@@ -24,8 +24,7 @@ object ShareMnpInRepository {
 
     def insert(shareSimCardNumber: ShareSimCardNumber, mnpIn: MnpIn) = {
       _Database.connect() withSession { implicit session =>
-        val _shareMnpIns = TableQuery[_ShareMnpIns]
-        _shareMnpIns +=(0, shareSimCardNumber.value, mnpIn.msisdn.value)
+        TableQuery[_ShareMnpIns] +=(0, shareSimCardNumber.value, mnpIn.msisdn.value)
       }
     }
 

@@ -31,6 +31,8 @@ object _Database {
   private def create() = {
     _Database.connect() withSession { implicit session =>
       if (!_Database.exists()) {
+        TableQuery[_Sequences].ddl.create
+
         TableQuery[EngagementRepository.Mapper._Engagements].ddl.create
 
         TableQuery[LineRepository.Mapper._Lines].ddl.create
@@ -65,7 +67,7 @@ object _Database {
     }
   }
 
-  private class _Sequences(tag: Tag) extends Table[(String, Int)](tag, "sqlite_sequence") {
+  private class _Sequences(tag: Tag) extends Table[(String, Int)](tag, "Sequences") {
     def name = column[String]("name")
 
     def seq = column[Int]("seq")
@@ -75,8 +77,16 @@ object _Database {
 
   def allocate(name: String): Int = {
     _Database.connect() withSession { implicit session =>
-      val _list = TableQuery[_Sequences].filter(_.name === name).list
-      if (_list.isEmpty) 1 else _list.head._2 + 1
+      val _sequences = TableQuery[_Sequences].filter(_.name === name).list
+
+      if (_sequences.isEmpty) {
+        TableQuery[_Sequences] +=(name, 1)
+        1
+      } else {
+        val nextval = _sequences.head._2 + 1
+        TableQuery[_Sequences].filter(_.name === name).update(name, nextval)
+        nextval
+      }
     }
   }
 }

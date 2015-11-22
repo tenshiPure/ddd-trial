@@ -24,8 +24,7 @@ object MnpInRepository {
 
     def insert(simCardNumber: SimCardNumber, mnpIn: MnpIn) = {
       _Database.connect() withSession { implicit session =>
-        val _mnpIns = TableQuery[_MnpIns]
-        _mnpIns +=(0, simCardNumber.value, mnpIn.msisdn.value)
+        TableQuery[_MnpIns] +=(0, simCardNumber.value, mnpIn.msisdn.value)
       }
     }
 
