@@ -1,7 +1,6 @@
 package datasource.engagement.mobile.share_line.share_sim_card.share_mnp_in
 
 import datasource._Database
-import domain.engagement.mobile.line.sim_card.SimCardNumber
 import domain.engagement.mobile.mnp_in.{MnpIn, Msisdn}
 import domain.engagement.mobile.share_line.share_sim_card.ShareSimCardNumber
 
@@ -30,9 +29,9 @@ object ShareMnpInRepository {
       }
     }
 
-    def find(simCardNumber: SimCardNumber): Option[MnpIn] = {
+    def find(shareSimCardNumber: ShareSimCardNumber): Option[MnpIn] = {
       _Database.connect() withSession { implicit session =>
-        val _shareMnpIns = TableQuery[_ShareMnpIns].filter(_.shareSimCardNumber === simCardNumber.value).list
+        val _shareMnpIns = TableQuery[_ShareMnpIns].filter(_.shareSimCardNumber === shareSimCardNumber.value).list
 
         if (_shareMnpIns.isEmpty) None
         else {

@@ -1,11 +1,9 @@
 package datasource.engagement.mobile.share_line.share_sim_card
 
 import datasource._Database
-import datasource.engagement.mobile.line.sim_card.mnp_in.MnpInRepository
-import domain.engagement.mobile.line.LineNumber
-import domain.engagement.mobile.line.sim_card.{SimCard, SimCardNumber}
-import domain.engagement.mobile.share_line.ShareLine
-import domain.engagement.mobile.share_line.share_sim_card.ShareSimCardNumber
+import datasource.engagement.mobile.share_line.share_sim_card.share_mnp_in.ShareMnpInRepository
+import domain.engagement.mobile.share_line.share_sim_card.{ShareSimCard, ShareSimCardNumber}
+import domain.engagement.mobile.share_line.{ShareLine, ShareLineNumber}
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -35,17 +33,17 @@ object ShareSimCardRepository {
       }
     }
 
-    def find(lineNumber: LineNumber): SimCard = {
+    def find(shareLineNumber: ShareLineNumber): ShareSimCard = {
       _Database.connect() withSession { implicit session =>
-        val _shareSimCards = TableQuery[_ShareSimCards].filter(_.shareLineNumber === lineNumber.value).list
+        val _shareSimCards = TableQuery[_ShareSimCards].filter(_.shareLineNumber === shareLineNumber.value).list
 
-        if (_shareSimCards.isEmpty) throw new Exception("no such SimCard found by " + lineNumber)
+        if (_shareSimCards.isEmpty) throw new Exception("no such ShareSimCard found by " + shareLineNumber)
         else {
-          val simCardNumber = new SimCardNumber(_shareSimCards.head._3)
+          val shareSimCardNumber = new ShareSimCardNumber(_shareSimCards.head._3)
 
-          SimCard(
-            simCardNumber,
-            MnpInRepository.Mapper.find(simCardNumber)
+          ShareSimCard(
+            shareSimCardNumber,
+            ShareMnpInRepository.Mapper.find(shareSimCardNumber)
           )
         }
       }

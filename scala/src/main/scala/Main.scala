@@ -6,18 +6,18 @@ object Main {
     println("\ntest engage")
     testEngage()
 
-    println("\ntest find (normal)")
-    testFind(Fixture.allInOne)
-    testFind(Fixture.noMnpIn)
-
-    println("\ntest find (irregular)")
-    testFind(Fixture.noLine)
+//    println("\ntest find (normal)")
+//    testFind(Fixture.allInOne)
+//    testFind(Fixture.noMnpIn)
+//
+//    println("\ntest find (irregular)")
+//    testFind(Fixture.noLine)
   }
 
   private def testEngage() = {
     _Database.init()
 
-    Adapter.engage("john doe", "normal", "090-1111-1111", List("", "090-3333-3333"))
+    Adapter.engage("john doe", "NormalPlan", "090-1111-1111", List("", "090-3333-3333"))
 
     find("en1")
   }

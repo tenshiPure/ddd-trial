@@ -1,9 +1,8 @@
 package datasource.engagement.mobile.share_line
 
 import datasource._Database
-import datasource.engagement.mobile.line.sim_card.SimCardRepository
+import datasource.engagement.mobile.share_line.share_sim_card.ShareSimCardRepository
 import domain.engagement.EngagementNumber
-import domain.engagement.mobile.line.{Line, LineNumber}
 import domain.engagement.mobile.share_line.{ShareLine, ShareLineNumber}
 
 import scala.slick.driver.SQLiteDriver.simple._
@@ -34,19 +33,20 @@ object ShareLineRepository {
       }
     }
 
-    def find(engagementNumber: EngagementNumber): Line = {
+    def find(engagementNumber: EngagementNumber): List[ShareLine] = {
       _Database.connect() withSession { implicit session =>
         val _shareLines = TableQuery[_ShareLines].filter(_.engagementNumber === engagementNumber.value).list
 
-        if (_shareLines.isEmpty) throw new Exception("no such Line found by " + engagementNumber)
-        else {
-          val lineNumber = new LineNumber(_shareLines.head._3)
+        _shareLines.map(
+          _shareLine => {
+            val shareLineNumber = new ShareLineNumber(_shareLine._3)
 
-          Line(
-            lineNumber,
-            SimCardRepository.Mapper.find(lineNumber)
-          )
-        }
+            ShareLine(
+              shareLineNumber,
+              ShareSimCardRepository.Mapper.find(shareLineNumber)
+            )
+          }
+        )
       }
     }
   }

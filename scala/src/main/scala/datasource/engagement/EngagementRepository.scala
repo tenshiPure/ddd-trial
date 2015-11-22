@@ -7,7 +7,8 @@ import datasource.engagement.mobile.line.sim_card.mnp_in.MnpInRepository
 import datasource.engagement.mobile.share_line.ShareLineRepository
 import datasource.engagement.mobile.share_line.share_sim_card.ShareSimCardRepository
 import datasource.engagement.mobile.share_line.share_sim_card.share_mnp_in.ShareMnpInRepository
-import domain.engagement.{Engagement, EngagementNumber, Fullname, _Plan}
+import domain.engagement.mobile.share_line.ShareLines
+import domain.engagement.{Engagement, EngagementNumber, Fullname, Plan}
 
 import scala.slick.driver.SQLiteDriver.simple._
 
@@ -79,9 +80,11 @@ object EngagementRepository {
             Engagement(
               new EngagementNumber(row._2),
               Fullname(row._3),
-              _Plan.create(row._4),
+              Plan.create(row._4),
               LineRepository.Mapper.find(engagementNumber),
-              null
+              ShareLines(
+                ShareLineRepository.Mapper.find(engagementNumber)
+              )
             )
           )
         }
