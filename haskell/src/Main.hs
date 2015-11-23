@@ -13,7 +13,7 @@ main = do
 
     create "create table Persons (id, name, type)"
 
-    insert "insert into Persons values (?, ?, ?)" $ map id ["1", "Solid Snake", "Hero"]
+    insert "insert into Persons values (?, ?, ?)" ["1", "Solid Snake", "Hero"]
     insert "insert into Persons values (?, ?, ?)" ["2", "Solidus Snake", "President"]
 
     print =<< find "select * from Persons"

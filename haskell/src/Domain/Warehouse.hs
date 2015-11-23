@@ -19,9 +19,9 @@ type PendingNumber = Int
 type Manpower = Int
 
 
-_warehouseName value = verify [minLength 3, maxLength 8, alphabet] value
+_warehouseName = verify [minLength 3, maxLength 8, alphabet]
 
-_quantity value = verify [nonNegative] value
+_quantity = verify [nonNegative]
 
 
 data Warehouse = Warehouse {
@@ -33,4 +33,4 @@ data Warehouse = Warehouse {
 
 
 mkWarehouse :: WarehouseName -> Location -> [Stock] -> PackingSchedule -> Warehouse
-mkWarehouse warehouseName location stocks packingSchedule = Warehouse warehouseName location stocks packingSchedule
+mkWarehouse = Warehouse
