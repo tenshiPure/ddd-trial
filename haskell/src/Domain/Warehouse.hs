@@ -1,4 +1,12 @@
 module Domain.Warehouse (
+WarehouseName,
+Location,
+Stock,
+ItemName,
+Quantity,
+PackingSchedule,
+PendingNumber,
+Manpower,
 _warehouseName,
 _quantity,
 mkWarehouse

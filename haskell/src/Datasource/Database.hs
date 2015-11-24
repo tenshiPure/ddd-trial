@@ -1,16 +1,28 @@
 module Datasource.Database(
+dbInit,
 find,
 findOne,
-insert,
-create
+insert
 ) where
 
+
+import System.Directory
+import Control.Monad
 
 import Database.HDBC
 import Database.HDBC.Sqlite3
 
 
-connect = connectSqlite3 "test.sqlite3"
+path = "test.sqlite3"
+
+connect = connectSqlite3 path
+
+
+dbInit creators = do
+    b <- doesFileExist path
+    when b (removeFile path)
+
+    mapM_ create creators
 
 
 find :: String -> IO [[Maybe String]]
@@ -30,11 +42,11 @@ _find query fetcher = do
 create :: String -> IO ()
 create query = exec query []
 
-insert :: String -> [String] -> IO ()
+insert :: String -> [SqlValue] -> IO ()
 insert = exec
 
-exec :: String -> [String] -> IO ()
+exec :: String -> [SqlValue] -> IO ()
 exec query args = do
     connection <- connect
-    run connection query (map toSql args)
+    run connection query args
     commit connection
