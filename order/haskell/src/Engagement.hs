@@ -6,12 +6,12 @@ module Engagement (
 import Domain
 
 mkEngagement :: MemberKind -> EntryCode -> Plan -> Engagement
-mkEngagement memberKind entryCode plan = Engagement memberId engagementNumber corporateId plan privileges
+mkEngagement memberKind entryCode plan = Engagement memberId engagementNumber corporateId plan privileges totalAmount
     where
         allocated = "001" -- todo
         memberId = case memberKind of
-            Private   -> MemberId ("PR-" ++ value entryCode ++ "-" ++ allocated)
-            Corporate -> MemberId ("CO-" ++ value entryCode ++ "-" ++ allocated)
+            Private   -> MemberId ("PR-" ++ entryCodeValue entryCode ++ "-" ++ allocated)
+            Corporate -> MemberId ("CO-" ++ entryCodeValue entryCode ++ "-" ++ allocated)
 
         engagementNumber = case memberKind of
             Private -> case plan of
@@ -54,6 +54,15 @@ mkEngagement memberKind entryCode plan = Engagement memberId engagementNumber co
                     (EntryCode "002000") -> [corporatePrivilege, sharePrivilege, entryCode2000Privilege]
                     (EntryCode "003000") -> [corporatePrivilege, sharePrivilege, entryCode3000Privilege]
                     _                    -> [corporatePrivilege, sharePrivilege]
+
+        totalAmount = TotalAmount (planAmount - discounts)
+            where
+                planAmount = case plan of
+                    Normal   -> 8000
+                    Special -> 12000
+                    Share   -> 15000
+
+                discounts = sum $ map (discountValue . privilegeDiscount) privileges
 
 
 corporatePrivilege     = Privilege (Discount 1000) ByCorporate

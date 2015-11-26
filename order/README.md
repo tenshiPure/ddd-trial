@@ -14,9 +14,9 @@
 * 契約番号 (EngagementNumber)
 * Opt<法人ID> (CorporateId)
 * 契約プラン
-* 料金 (Amount)          -- todo
-* 特典[]                 -- todo
-* 合計金額 (TotalAmount) -- todo
+* プラン料金 (PlanAmount)
+* 特典[]
+* 合計金額 (TotalAmount)
 ```
 
 ### 概要

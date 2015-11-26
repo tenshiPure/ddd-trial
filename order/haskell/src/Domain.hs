@@ -8,16 +8,20 @@ module Domain (
  Engagement(..),
  MemberId(..),
  EngagementNumber(..),
- CorporateId(..)
+ CorporateId(..),
+ PlanAmount(..),
+ TotalAmount(..)
 ) where
 
 data MemberKind = Private | Corporate deriving Show
-data EntryCode = EntryCode { value :: String } deriving Show
+data EntryCode = EntryCode { entryCodeValue :: String } deriving Show
 data Plan = Normal | Special | Share deriving Show
-data Privilege = Privilege Discount Cause deriving Show
-data Discount = Discount Int deriving Show
+data Privilege = Privilege { privilegeDiscount :: Discount, privilegeCause :: Cause } deriving Show
+data Discount = Discount { discountValue :: Int } deriving Show
 data Cause = ByCorporate | ByShare | ByEntryCode deriving Show
-data Engagement = Engagement MemberId EngagementNumber (Maybe CorporateId) Plan [Privilege] deriving Show
+data Engagement = Engagement MemberId EngagementNumber (Maybe CorporateId) Plan [Privilege] TotalAmount deriving Show
 data MemberId = MemberId String deriving Show
 data EngagementNumber = EngagementNumber String deriving Show
 data CorporateId = CorporateId String deriving Show
+data PlanAmount = PlanAmount Int deriving Show
+data TotalAmount = TotalAmount Int deriving Show
