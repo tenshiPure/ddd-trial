@@ -5,10 +5,13 @@ module Engagement (
 
 import Domain
 
-mkEngagement :: MemberKind -> EntryCode -> Plan -> Engagement
-mkEngagement memberKind entryCode plan = Engagement memberId engagementNumber corporateId plan privileges totalAmount
+mkEngagement :: MemberKind -> EntryCode -> EntryRoute -> Plan -> (Engagement, MembersCard, Maybe Shipping)
+mkEngagement memberKind entryCode entryRoute plan = (engagement, membersCard, shipping)
     where
+        engagement = Engagement memberId engagementNumber corporateId plan status privileges totalAmount
+
         allocated = "001" -- todo
+
         memberId = case memberKind of
             Private   -> MemberId ("PR-" ++ entryCodeValue entryCode ++ "-" ++ allocated)
             Corporate -> MemberId ("CO-" ++ entryCodeValue entryCode ++ "-" ++ allocated)
@@ -26,6 +29,10 @@ mkEngagement memberKind entryCode plan = Engagement memberId engagementNumber co
         corporateId = case memberKind of
             Private   -> Nothing
             Corporate -> Just $ CorporateId ("CO" ++ allocated)
+
+        status = case entryRoute of
+            Shop -> Using
+            Web  -> InShipping
 
         privileges = case memberKind of
             Private -> case plan of
@@ -64,8 +71,14 @@ mkEngagement memberKind entryCode plan = Engagement memberId engagementNumber co
 
                 discounts = sum $ map (discountValue . privilegeDiscount) privileges
 
+        membersCard = MembersCard memberId plan
+
+        shipping = case entryRoute of
+            Shop -> Nothing
+            Web  -> Just $ Shipping membersCard
+
 
 corporatePrivilege     = Privilege (Discount 1000) ByCorporate
-sharePrivilege         = Privilege (Discount 500) ByShare
+sharePrivilege         = Privilege (Discount  500) ByShare
 entryCode2000Privilege = Privilege (Discount 3000) ByEntryCode
 entryCode3000Privilege = Privilege (Discount 2000) ByEntryCode
